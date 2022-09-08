@@ -8,7 +8,8 @@
     <string name="previous">Previous</string>
     <string name="title_image_description">Cute Kitten</string>
     <string name="tile_image_description">Cat paw tile</string>
-
+    <string name="starButton_description">star off and on</string>
     <string name="title">Welcome to CatSweeper</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="numStarsLeft_text">008</string>
+    <string name="restartButton_text">Restart Game</string>
 </resources>
