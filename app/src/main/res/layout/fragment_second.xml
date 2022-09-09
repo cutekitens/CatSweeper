@@ -50,18 +50,15 @@
             tools:ignore="ImageContrastCheck" />
     </LinearLayout>
 
-    <!--<ImageButton
-        android:id="@+id/tile1"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:adjustViewBounds="true"
-        android:background="@drawable/image_button_border"
-        android:contentDescription="@string/tile_image_description"
-        android:scaleType="fitCenter"
-        android:src="@drawable/cat_paw"
-        tools:ignore="DuplicateSpeakableTextCheck"
-        tools:layout_editor_absoluteX="156dp"
-        tools:layout_editor_absoluteY="265dp" />-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/cat_grid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/linearlayout" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
