@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,13 +16,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.catsweeper.databinding.FragmentSecondBinding;
 
+import java.util.Locale;
+
 public class SecondFragment extends Fragment implements OnTileClickListener{
 
     private FragmentSecondBinding binding;
     private RecyclerView catGrid;
     private int NUM_ROWS = 10;
     private int NUM_COLS = 8;
-
+    private int NUM_CATS = 10;
+    private CatGridRecyclerAdapter catGridRecyclerAdapter;
+    private CatSweeperGame game;
+    private TextView starsLeftText;
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
@@ -30,9 +36,11 @@ public class SecondFragment extends Fragment implements OnTileClickListener{
         binding = FragmentSecondBinding.inflate(inflater, container, false);
         catGrid = binding.catGrid;
         catGrid.setLayoutManager(new GridLayoutManager(getActivity(), NUM_COLS));
-        CatSweeperGame game = new CatSweeperGame(NUM_ROWS, NUM_COLS);
-        CatGridRecyclerAdapter catGridRecyclerAdapter = new CatGridRecyclerAdapter(game.getCatGrid().getTiles(), this);
+        game = new CatSweeperGame(NUM_ROWS, NUM_COLS, NUM_CATS);
+        catGridRecyclerAdapter = new CatGridRecyclerAdapter(game.getCatGrid().getTiles(), this);
         catGrid.setAdapter(catGridRecyclerAdapter);
+        starsLeftText = binding.numStarsLeft;
+        starsLeftText.setText(String.format(Locale.US, "%03d", game.getNumCats()));
         return binding.getRoot();
 
     }
@@ -45,7 +53,12 @@ public class SecondFragment extends Fragment implements OnTileClickListener{
 
     @Override
     public void onTileClick(Tile tile) {
-        Toast.makeText(getActivity(), "Tile clicked", Toast.LENGTH_SHORT).show();
+        game.tileClicked(tile);
+        if (game.isGameOver()){
+            Toast.makeText(getActivity(), "You woke up a cat! That's game over for you!", Toast.LENGTH_SHORT).show();
+            game.getCatGrid().revealAllCats();
+        }
+        catGridRecyclerAdapter.setTiles(game.getCatGrid().getTiles());
     }
 
     @Override
@@ -54,11 +67,3 @@ public class SecondFragment extends Fragment implements OnTileClickListener{
         binding = null;
     }
 }
-
-/*
-    gridRecyclerView = binding.catGrid;
-        gridRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 8));
-        game = new CatSweeperGame(10, 8);
-        catGridRecyclerAdapter = new CatGridRecyclerAdapter(game.getCatGrid().getTiles(), this);
-        gridRecyclerView.setAdapter(catGridRecyclerAdapter);
-     */

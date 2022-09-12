@@ -1,5 +1,6 @@
 package com.example.catsweeper;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,32 +57,42 @@ public class CatGridRecyclerAdapter extends RecyclerView.Adapter<CatGridRecycler
         public void bind(final Tile tile) {
             itemView.setBackground(ContextCompat.getDrawable(itemView.getContext(), R.drawable.tile_background));
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    listener.onTileClick(tile);
-                }
-            });
+            itemView.setOnClickListener(view -> listener.onTileClick(tile));
 
-            /*if (Tile.isRevealed()) {
-                if (Tile.getValue() == Tile.SLEEPING_CAT) {
-                    valueTextView.setText(R.string.bomb);
-                } else if (cell.getValue() == Cell.BLANK) {
+            if (tile.isRevealed()){
+                itemView.setBackgroundColor(ContextCompat.getColor(itemView.getContext(), R.color.tile_color));
+                if (tile.getValue() == Tile.SLEEPING_CAT) {
+                    valueTextView.setText(R.string.sleeping_cat);
+                } else if (tile.getValue() == Tile.BLANK) {
                     valueTextView.setText("");
-                    itemView.setBackgroundColor(Color.WHITE);
                 } else {
-                    valueTextView.setText(String.valueOf(cell.getValue()));
-                    if (cell.getValue() == 1) {
+                    valueTextView.setText(String.valueOf(tile.getValue()));
+                    if (tile.getValue() == 1) {
                         valueTextView.setTextColor(Color.BLUE);
-                    } else if (cell.getValue() == 2) {
+                    } else if (tile.getValue() == 2) {
                         valueTextView.setTextColor(Color.GREEN);
-                    } else if (cell.getValue() == 3) {
+                    } else if (tile.getValue() == 3) {
                         valueTextView.setTextColor(Color.RED);
                     }
+                    else if (tile.getValue() == 4){
+                        valueTextView.setTextColor(Color.rgb(102, 51, 153));
+                    }
+                    else if (tile.getValue() == 5){
+                        valueTextView.setTextColor(Color.rgb(128, 0, 0));
+                    }
+                    else if (tile.getValue() == 6){
+                        valueTextView.setTextColor(Color.rgb(32, 178, 170));
+                    }
+                    else if (tile.getValue() == 7){
+                        valueTextView.setTextColor(Color.rgb(0, 0, 0));
+                    }
+                    else if (tile.getValue() == 8){
+                        valueTextView.setTextColor(Color.rgb(169, 169, 169));
+                    }
                 }
-            } else if (cell.isFlagged()) {
-                valueTextView.setText(R.string.flag);
-            }*/
+            } else if (tile.isStarred()) {
+                valueTextView.setText(R.string.star);
+            }
         }
     }
 }

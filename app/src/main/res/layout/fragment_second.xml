@@ -24,7 +24,6 @@
             android:layout_marginEnd="20dp"
             android:layout_weight="1"
             android:fontFamily="casual"
-            android:text="@string/numStarsLeft_text"
             android:textColor="@color/black"
             android:textSize="48sp" />
 
