@@ -6,14 +6,48 @@ import java.util.List;
 public class CatSweeperGame {
     private CatGrid catGrid;
     private int numCats;
+    private int numStars = 0;
     private boolean gameOver = false;
+    private boolean gameWon = false;
+    private boolean firstClick = true;
+    private boolean starMode = false;
+
     public CatSweeperGame(int numRows, int numCols, int numCats){
         catGrid = new CatGrid(numRows, numCols);
         this.numCats = numCats;
         catGrid.generateGrid(numCats);
     }
-    public void tileClicked(Tile tile){
-        if (!gameOver && !tile.isRevealed()){
+
+
+    public void tileClicked(Tile tile) {
+        if (!starMode){
+            normalMode(tile);
+        }
+        else if (!tile.isRevealed() && numStars < numCats){
+            if (!tile.isStarred()) {
+                tile.setStarred(true);
+                numStars++;
+            }
+            else{
+                tile.setStarred(false);
+                numStars--;
+            }
+        }
+    }
+
+    public void normalMode(Tile tile){
+        if (tile.isStarred()){
+            tile.setStarred(false);
+            numStars--;
+            return;
+        }
+        if (!tile.isStarred() && firstClick){ // first click may not be counting cats correctly
+            if(tile.getValue() == Tile.SLEEPING_CAT) {
+                catGrid.moveCat(tile);
+            }
+            firstClick = false;
+        }
+        if (!gameWon && !gameOver && !tile.isRevealed()){
             tile.setRevealed(true);
             if (tile.getValue() == Tile.SLEEPING_CAT){
                 gameOver = true;
@@ -25,7 +59,6 @@ public class CatSweeperGame {
                 while (!blankTiles.isEmpty()){
                     Tile t = blankTiles.get(0);
                     int index = getCatGrid().getTiles().indexOf(t);
-                    System.out.print(index);
                     int[] tilePos = getCatGrid().getPos(index);
                     for (Tile adj: getCatGrid().adjacentTiles(tilePos[0], tilePos[1])){
                         if (!toReveal.contains(adj) && !blankTiles.contains(adj) && adj.getValue() == Tile.BLANK){
@@ -42,15 +75,39 @@ public class CatSweeperGame {
                     blankTiles.remove(t);
                 }
                 for (Tile t: toReveal){
+                    if (t.isStarred()){
+                        t.setStarred(false);
+                        numStars--;
+                    }
                     t.setRevealed(true);
                 }
             }
         }
+        // game is won if all tiles except for cat ones are revealed
+        if(catGrid.checkGameWon()){
+            gameWon = true;
+        }
     }
+
     public CatGrid getCatGrid() {
         return catGrid;
     }
 
+    public boolean isStarMode() {
+        return starMode;
+    }
+
+    public boolean isGameWon(){
+        return gameWon;
+    }
+
+    public void setStarMode(boolean starMode) {
+        this.starMode = starMode;
+    }
+
+    public int getNumStars(){
+        return numStars;
+    }
     public int getNumCats(){
         return numCats;
     }

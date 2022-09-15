@@ -56,9 +56,7 @@ public class CatGridRecyclerAdapter extends RecyclerView.Adapter<CatGridRecycler
 
         public void bind(final Tile tile) {
             itemView.setBackground(ContextCompat.getDrawable(itemView.getContext(), R.drawable.tile_background));
-
             itemView.setOnClickListener(view -> listener.onTileClick(tile));
-
             if (tile.isRevealed()){
                 itemView.setBackgroundColor(ContextCompat.getColor(itemView.getContext(), R.color.tile_color));
                 if (tile.getValue() == Tile.SLEEPING_CAT) {
@@ -91,7 +89,7 @@ public class CatGridRecyclerAdapter extends RecyclerView.Adapter<CatGridRecycler
                     }
                 }
             } else if (tile.isStarred()) {
-                valueTextView.setText(R.string.star);
+                itemView.setBackground(ContextCompat.getDrawable(itemView.getContext(), R.drawable.tile_starred));
             }
         }
     }

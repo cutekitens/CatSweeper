@@ -13,4 +13,5 @@
     <string name="restartButton_text">Restart Game</string>
     <string name="sleeping_cat">C</string>
     <string name="star">S</string>
+    <string name="mainMenuButton_text">Go Back To Main Menu</string>
 </resources>

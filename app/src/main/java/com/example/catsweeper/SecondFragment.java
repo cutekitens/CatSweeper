@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +30,19 @@ public class SecondFragment extends Fragment implements OnTileClickListener{
     private CatGridRecyclerAdapter catGridRecyclerAdapter;
     private CatSweeperGame game;
     private TextView starsLeftText;
+    private ImageButton star_button;
+
+    /*
+    To work do:
+    - Potential bug with cats being miscounted when moving cat on first click
+    - Change main menu pic
+    - Change app icon
+    - If game is over and tiles are starred that do not have cats under them then an X should be put on tile
+    - Need to get sleeping cat icon
+    - Explanation of game (explain cat concept)
+    - MORE TESTING
+     */
+
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
@@ -35,6 +50,7 @@ public class SecondFragment extends Fragment implements OnTileClickListener{
     ) {
         binding = FragmentSecondBinding.inflate(inflater, container, false);
         catGrid = binding.catGrid;
+        star_button = binding.starButton;
         catGrid.setLayoutManager(new GridLayoutManager(getActivity(), NUM_COLS));
         game = new CatSweeperGame(NUM_ROWS, NUM_COLS, NUM_CATS);
         catGridRecyclerAdapter = new CatGridRecyclerAdapter(game.getCatGrid().getTiles(), this);
@@ -47,16 +63,46 @@ public class SecondFragment extends Fragment implements OnTileClickListener{
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding.restartButton.setOnClickListener(view1 -> NavHostFragment.findNavController(SecondFragment.this)
+        binding.restartButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                star_button.setImageResource(android.R.drawable.btn_star_big_off);
+                starsLeftText.setText(String.format(Locale.US, "%03d", game.getNumCats()));
+                game = new CatSweeperGame(NUM_ROWS, NUM_COLS, NUM_CATS);
+                catGridRecyclerAdapter.setTiles(game.getCatGrid().getTiles());
+            }
+        });
+        star_button.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                if (game.isGameWon() || game.isGameOver()){
+                    return;
+                }
+                if (!game.isStarMode()){
+                    star_button.setImageResource(android.R.drawable.btn_star_big_on);
+                    game.setStarMode(true);
+                }
+                else {
+                    star_button.setImageResource(android.R.drawable.btn_star_big_off);
+                    game.setStarMode(false);
+                }
+            }
+        }
+        );
+        binding.mainMenuButton.setOnClickListener(view1 -> NavHostFragment.findNavController(SecondFragment.this)
                 .navigate(R.id.action_SecondFragment_to_FirstFragment));
     }
 
     @Override
     public void onTileClick(Tile tile) {
         game.tileClicked(tile);
-        if (game.isGameOver()){
+        starsLeftText.setText(String.format(Locale.US, "%03d", game.getNumCats()-game.getNumStars()));
+        if (game.isGameOver()) {
             Toast.makeText(getActivity(), "You woke up a cat! That's game over for you!", Toast.LENGTH_SHORT).show();
-            game.getCatGrid().revealAllCats();
+            game.getCatGrid().revealAllCats(); // need to add feature for starred tiles that are not cats to have an X over them
+        }
+        if (game.isGameWon()){
+            Toast.makeText(getActivity(), "You won! The cats are sleeping peacefully!", Toast.LENGTH_SHORT).show();
         }
         catGridRecyclerAdapter.setTiles(game.getCatGrid().getTiles());
     }

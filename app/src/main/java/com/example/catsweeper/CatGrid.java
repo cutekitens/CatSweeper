@@ -16,6 +16,32 @@ public class CatGrid {
             tiles.add(new Tile(Tile.BLANK));
         }
     }
+
+    public void moveCat(Tile tile){ // move cat to adjacent tile
+        int[] pos = getPos(getTiles().indexOf(tile)); // get x,y of tile
+        List<Tile> adj_tiles = adjacentTiles(pos[0], pos[1]);
+        Tile new_tile = adj_tiles.get(0);
+        adj_tiles.remove(0);
+        new_tile.setValue(Tile.SLEEPING_CAT);
+        int[] pos2 = getPos(getTiles().indexOf(new_tile));
+        List<Tile> adj_new_tiles = adjacentTiles(pos2[0], pos2[1]);
+        for (Tile t: adj_new_tiles){
+            if (t != tile && !adj_tiles.contains(t) && t.getValue() != Tile.SLEEPING_CAT){ // if in adj_tiles then cat already accounted for
+                t.setValue(t.getValue()+1);
+            }
+        }
+        int num_cats = 1; // already know one cat is adjacent
+        for (Tile t: adj_tiles){
+            if (t.getValue() == Tile.SLEEPING_CAT){
+                num_cats++;
+            }
+            else if (!adj_new_tiles.contains(t)){ // if not in adj_tiles then need to remove cat
+                t.setValue(t.getValue()-1);
+            }
+        }
+        tile.setValue(num_cats);
+    }
+
     public void generateGrid(int numCats){
         int catsPlaced = 0;
         while (catsPlaced < numCats){
@@ -82,6 +108,25 @@ public class CatGrid {
                 t.setRevealed(true);
             }
         }
+    }
+
+    public boolean checkGameWon(){
+        List<Tile> cats = new ArrayList<>();
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numCols; j++) {
+                Tile tile = tileAt(i, j);
+                if (tile.getValue() != Tile.SLEEPING_CAT && !tile.isRevealed()){
+                    return false;
+                }
+                else if (tile.getValue() == Tile.SLEEPING_CAT){
+                    cats.add(tile);
+                }
+            }
+        }
+        for (Tile cat: cats){
+            cat.setStarred(true); // star all cats
+        }
+        return true;
     }
 
     public List<Tile> getTiles() {
