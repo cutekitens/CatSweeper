@@ -5,9 +5,10 @@ import java.util.List;
 import java.util.Random;
 
 public class CatGrid {
-    private List<Tile> tiles;
-    private int numRows;
-    private int numCols;
+    private final List<Tile> tiles;
+    private final int numRows;
+    private final int numCols;
+    private boolean catsRevealed = false;
     public CatGrid(int numRows, int numCols) {
         this.numRows = numRows;
         this.numCols = numCols;
@@ -18,6 +19,7 @@ public class CatGrid {
     }
 
     public void moveCat(Tile tile){ // move cat to adjacent tile
+        System.out.println("Cat moved");
         int[] pos = getPos(getTiles().indexOf(tile)); // get x,y of tile
         List<Tile> adj_tiles = adjacentTiles(pos[0], pos[1]);
         Tile new_tile = adj_tiles.get(0);
@@ -105,9 +107,19 @@ public class CatGrid {
     public void revealAllCats(){
         for (Tile t: tiles){
             if (t.getValue() == Tile.SLEEPING_CAT){
+                if (t.isRevealed()){ // cat that player clicked on
+                    t.setValue(Tile.UPSET_CAT);
+                }
+                else {
+                    t.setRevealed(true);
+                }
+            }
+            else if (t.isStarred()){
+                t.setValue(Tile.NOT_CAT);
                 t.setRevealed(true);
             }
         }
+        catsRevealed = true;
     }
 
     public boolean checkGameWon(){
@@ -127,6 +139,10 @@ public class CatGrid {
             cat.setStarred(true); // star all cats
         }
         return true;
+    }
+
+    public boolean areCatsRevealed() {
+        return catsRevealed;
     }
 
     public List<Tile> getTiles() {

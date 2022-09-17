@@ -22,28 +22,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_marginTop="8dp"
-        android:contentDescription="@string/title_image_description"
-        android:src="@drawable/title_image"
-        app:layout_constraintBottom_toTopOf="@+id/start_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview_first"
-        tools:ignore="ImageContrastCheck" />
-
     <Button
         android:id="@+id/start_button"
         android:layout_width="250dp"
         android:layout_height="80dp"
+        android:layout_marginBottom="52dp"
         android:text="@string/start_button_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
         tools:ignore="TextContrastCheck" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/title_image_description"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        android:src="@drawable/sleeping_cat_icon"
+        app:layout_constraintBottom_toTopOf="@+id/start_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview_first"
+        app:layout_constraintVertical_bias="0.368" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

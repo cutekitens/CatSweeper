@@ -2,6 +2,8 @@ package com.example.catsweeper;
 
 public class Tile {
     public static final int SLEEPING_CAT = -1;
+    public static final int NOT_CAT = -2; // starred tile that isn't a cat
+    public static final int UPSET_CAT = -3; // cat that player clicked on
     public static final int BLANK = 0;
 
     private int value;

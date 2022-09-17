@@ -1,6 +1,6 @@
 package com.example.catsweeper;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +15,7 @@ import java.util.List;
 
 public class CatGridRecyclerAdapter extends RecyclerView.Adapter<CatGridRecyclerAdapter.CatTileViewHolder> {
     private List<Tile> tiles;
-    private OnTileClickListener listener;
+    private final OnTileClickListener listener;
 
     public CatGridRecyclerAdapter(List<Tile> tiles, OnTileClickListener listener) {
         this.tiles = tiles;
@@ -40,6 +40,7 @@ public class CatGridRecyclerAdapter extends RecyclerView.Adapter<CatGridRecycler
         return tiles.size();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void setTiles(List<Tile> tiles) {
         this.tiles = tiles;
         notifyDataSetChanged();
@@ -60,8 +61,16 @@ public class CatGridRecyclerAdapter extends RecyclerView.Adapter<CatGridRecycler
             if (tile.isRevealed()){
                 itemView.setBackgroundColor(ContextCompat.getColor(itemView.getContext(), R.color.tile_color));
                 if (tile.getValue() == Tile.SLEEPING_CAT) {
-                    valueTextView.setText(R.string.sleeping_cat);
-                } else if (tile.getValue() == Tile.BLANK) {
+                    valueTextView.setText("");
+                    itemView.setBackground(ContextCompat.getDrawable(itemView.getContext(), R.drawable.cat_sleeping));
+                } else if (tile.getValue() == Tile.UPSET_CAT){
+                    valueTextView.setText("");
+                    itemView.setBackground(ContextCompat.getDrawable(itemView.getContext(), R.drawable.cat_upset));
+                } else if (tile.getValue() == Tile.NOT_CAT) {
+                    valueTextView.setText("");
+                    itemView.setBackground(ContextCompat.getDrawable(itemView.getContext(), R.drawable.cat_sleeping_crossed_out));
+                }
+                else if (tile.getValue() == Tile.BLANK) {
                     valueTextView.setText("");
                 } else {
                     valueTextView.setText(String.valueOf(tile.getValue()));

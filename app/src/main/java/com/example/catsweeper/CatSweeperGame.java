@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CatSweeperGame {
-    private CatGrid catGrid;
-    private int numCats;
+    private final CatGrid catGrid;
+    private final int numCats;
     private int numStars = 0;
     private boolean gameOver = false;
     private boolean gameWon = false;
@@ -20,15 +20,18 @@ public class CatSweeperGame {
 
 
     public void tileClicked(Tile tile) {
+        if (gameOver || gameWon) { // do nothing when Game is over or won
+            return;
+        }
         if (!starMode){
             normalMode(tile);
         }
-        else if (!tile.isRevealed() && numStars < numCats){
-            if (!tile.isStarred()) {
+        else if (!tile.isRevealed()){
+            if (!tile.isStarred() && numStars < numCats) {
                 tile.setStarred(true);
                 numStars++;
             }
-            else{
+            else if (tile.isStarred()){
                 tile.setStarred(false);
                 numStars--;
             }
@@ -47,7 +50,7 @@ public class CatSweeperGame {
             }
             firstClick = false;
         }
-        if (!gameWon && !gameOver && !tile.isRevealed()){
+        if (!tile.isRevealed()){
             tile.setRevealed(true);
             if (tile.getValue() == Tile.SLEEPING_CAT){
                 gameOver = true;
