@@ -89,6 +89,7 @@ public class CatSweeperGame {
         // game is won if all tiles except for cat ones are revealed
         if(catGrid.checkGameWon()){
             gameWon = true;
+            numStars = numCats;
         }
     }
 

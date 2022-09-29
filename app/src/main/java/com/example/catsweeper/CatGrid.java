@@ -21,10 +21,28 @@ public class CatGrid {
     public void moveCat(Tile tile){ // move cat to adjacent tile
         System.out.println("Cat moved");
         int[] pos = getPos(getTiles().indexOf(tile)); // get x,y of tile
-        List<Tile> adj_tiles = adjacentTiles(pos[0], pos[1]);
-        Tile new_tile = adj_tiles.get(0);
-        adj_tiles.remove(0);
-        new_tile.setValue(Tile.SLEEPING_CAT);
+        List<Tile> adj_tiles = adjacentTiles(pos[0], pos[1]); // get list of adjacent tiles
+        Tile new_tile = null;
+        for (Tile t: adj_tiles){
+            if (t.getValue() != Tile.SLEEPING_CAT){
+                new_tile = t;
+                new_tile.setValue(Tile.SLEEPING_CAT);
+                break;
+            }
+        }
+        if (new_tile == null){ // adjacent tiles were all sleeping cats
+            for (int i = 0; i < numRows; i++) { // just going to search the whole grid for a non-sleeping cat tile
+                for (int j = 0; j < numCols; j++) {
+                    Tile t = tileAt(i, j);
+                    if (t.getValue() != Tile.SLEEPING_CAT){
+                        new_tile = t;
+                        new_tile.setValue(Tile.SLEEPING_CAT);
+                        i = numRows;
+                        break;
+                    }
+                }
+            }
+        }
         int[] pos2 = getPos(getTiles().indexOf(new_tile));
         List<Tile> adj_new_tiles = adjacentTiles(pos2[0], pos2[1]);
         for (Tile t: adj_new_tiles){
@@ -32,7 +50,7 @@ public class CatGrid {
                 t.setValue(t.getValue()+1);
             }
         }
-        int num_cats = 1; // already know one cat is adjacent
+        int num_cats = 0; // already know one cat is adjacent
         for (Tile t: adj_tiles){
             if (t.getValue() == Tile.SLEEPING_CAT){
                 num_cats++;
@@ -110,7 +128,7 @@ public class CatGrid {
                 if (t.isRevealed()){ // cat that player clicked on
                     t.setValue(Tile.UPSET_CAT);
                 }
-                else {
+                else if (!t.isStarred()){ // don't do anything if tile is starred
                     t.setRevealed(true);
                 }
             }
