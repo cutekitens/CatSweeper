@@ -30,16 +30,6 @@ public class SecondFragment extends Fragment implements OnTileClickListener{
     private TextView starsLeftText;
     private ImageButton star_button;
 
-    /*
-    To work do:
-    - Potential bug with cats being miscounted when moving cat on first click
-    - Change main menu pic
-    - Change app icon
-    - Need to get sleeping cat icon
-    - Explanation of game (explain cat concept)
-    - MORE TESTING
-     */
-
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
@@ -49,7 +39,7 @@ public class SecondFragment extends Fragment implements OnTileClickListener{
         RecyclerView catGrid = binding.catGrid;
         star_button = binding.starButton;
         catGrid.setLayoutManager(new GridLayoutManager(getActivity(), NUM_COLS));
-        game = new CatSweeperGame(NUM_ROWS, NUM_COLS, NUM_CATS);
+        game = new CatSweeperGame(NUM_ROWS, NUM_COLS, NUM_CATS, false);
         catGridRecyclerAdapter = new CatGridRecyclerAdapter(game.getCatGrid().getTiles(), this);
         catGrid.setAdapter(catGridRecyclerAdapter);
         starsLeftText = binding.numStarsLeft;
@@ -85,7 +75,7 @@ public class SecondFragment extends Fragment implements OnTileClickListener{
     public void restartGame(View view){
         star_button.setImageResource(android.R.drawable.btn_star_big_off);
         starsLeftText.setText(String.format(Locale.US, "%03d", game.getNumCats()));
-        game = new CatSweeperGame(NUM_ROWS, NUM_COLS, NUM_CATS);
+        game = new CatSweeperGame(NUM_ROWS, NUM_COLS, NUM_CATS, false);
         catGridRecyclerAdapter.setTiles(game.getCatGrid().getTiles());
     }
 

@@ -90,6 +90,28 @@ public class CatGrid {
         }
     }
 
+    public void generateTutorial(){
+        tileAt(0, 1).setValue(Tile.SLEEPING_CAT);
+        tileAt(4, 4).setValue(Tile.SLEEPING_CAT);
+        tileAt(2, 3).setValue(Tile.SLEEPING_CAT);
+        for (int i = 0; i < numRows; i++){
+            for (int j = 0; j < numCols; j++){
+                Tile tile = tileAt(i, j);
+                if (tile.getValue() != Tile.SLEEPING_CAT) {
+                    List<Tile> adjacentTiles = adjacentTiles(i, j);
+                    int num = 0;
+                    for (Tile t : adjacentTiles){
+                        if (t.getValue() == Tile.SLEEPING_CAT){
+                            num++;
+                        }
+                    }
+                    tile.setValue(num);
+                }
+            }
+        }
+    }
+
+
     public Tile tileAt(int x, int y){
         if (x >= numRows || x < 0 || y >= numCols || y < 0){
             return null;

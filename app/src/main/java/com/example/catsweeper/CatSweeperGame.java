@@ -12,10 +12,15 @@ public class CatSweeperGame {
     private boolean firstClick = true;
     private boolean starMode = false;
 
-    public CatSweeperGame(int numRows, int numCols, int numCats){
+    public CatSweeperGame(int numRows, int numCols, int numCats, boolean tutorialMode){
         catGrid = new CatGrid(numRows, numCols);
         this.numCats = numCats;
-        catGrid.generateGrid(numCats);
+        if (tutorialMode){
+            catGrid.generateTutorial(); // assume numCats is 3
+        }
+        else {
+            catGrid.generateGrid(numCats);
+        }
     }
 
 

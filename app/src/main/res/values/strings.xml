@@ -3,8 +3,10 @@
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">CatSweeper</string>
-    <string name="second_fragment_label">Second Fragment</string>
+    <string name="second_fragment_label">Game</string>
+    <string name="third_fragment_label">Tutorial</string>
     <string name="start_button_text">Play Game</string>
+    <string name="tutorial_button_text">How to play</string>
     <string name="previous">Previous</string>
     <string name="title_image_description">Cute Kitten</string>
     <string name="tile_image_description">Cat paw tile</string>
@@ -14,4 +16,15 @@
     <string name="sleeping_cat">C</string>
     <string name="star">S</string>
     <string name="mainMenuButton_text">Go Back To Main Menu</string>
+    <string name="NextButtonText">Next</string>
+    <string-array name="tutorialPages">
+        <item>Welcome to CatSweeper! To begin playing CatSweeper, you just simply tap on a tile. Press the next button to show what would happen if you tapped the upper left tile.</item>
+        <item>As you can see the number 1 is revealed. This means there is 1 sleeping cats adjacent to this tile, Your goal is not to tap on any tiles with sleeping cats under them.</item>
+        <item>The number highlighted in red tells you how many sleeping cats there are.</item>
+        <item>If you tap on a tile with a sleeping cat, then you wake up that cat and it is game over!</item>
+        <item>Some tiles have no sleeping cats adjacent to them. When you tap on one of these tiles, there is no number underneath. Any time one of these tiles is revealed, all of its adjacent tiles are revealed.</item>
+        <item>When you tap on the button on the upper right hand corner of the screen, the star will light up indicating that you can now place stars.</item>
+        <item>Now when you tap on an unrevealed tile, it is starred instead of revealed and the number of sleeping cats will be decremented by 1. Star tiles that you believe have sleeping cats under them.</item>
+        <item>Once you have revealed all the tiles without sleeping cats under them then you win! Then you can press the restart button to play again! :)</item>
+    </string-array>
 </resources>
